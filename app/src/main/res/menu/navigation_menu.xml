@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/main_profile"/>
+
+    <item android:id="@+id/repositoriesFragment"
+        android:icon="@drawable/ic_repository"
+        android:title="@string/main_repositories"/>
+</menu>

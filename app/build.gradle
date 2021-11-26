@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
     id("com.apollographql.apollo").version("2.5.11")
 
 }
@@ -24,6 +26,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -31,6 +38,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    apollo {
+        generateKotlinModels.set(true)
+    }
+
 }
 
 dependencies {
@@ -39,27 +51,33 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
-    testImplementation 'junit:junit:4.+'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //apollo
-    implementation("com.apollographql.apollo:apollo-runtime:2.5.11")
+    implementation 'com.apollographql.apollo:apollo-runtime:2.5.11'
+    implementation 'com.apollographql.apollo:apollo-coroutines-support:2.5.11'
+    implementation 'com.apollographql.apollo:apollo-rx2-support:2.5.11'
 
-    // optional: if you want to use the normalized cache
-    implementation("com.apollographql.apollo:apollo-normalized-cache-sqlite:2.5.11")
-    // optional: for coroutines support
-    implementation("com.apollographql.apollo:apollo-coroutines-support:2.5.11")
-    // optional: for Mutiny support
-    implementation("com.apollographql.apollo:apollo-mutiny-support:2.5.11")
-    // optional: for Reactor support
-    implementation("com.apollographql.apollo:apollo-reactor-support:2.5.11")
-    // optional: for RxJava3 support
-    implementation("com.apollographql.apollo:apollo-rx3-support:2.5.11")
-    // optional: Most of apollo-android does not depend on Android in practice and runs on any JVM or on Kotlin native. apollo-android-support contains a few Android-only helper classes. For an example to send logs to logcat or run callbacks on the main thread.
-    implementation("com.apollographql.apollo:apollo-android-support:2.5.11")
-    // optional: if you just want the generated models and parsers and write your own HTTP code/cache code, you can remove apollo-runtime
-    // and use apollo-api instead
-    implementation("com.apollographql.apollo:apollo-api:2.5.11")
+    //rxKotlin
+    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
+    //room
+    implementation "androidx.room:room-runtime:2.3.0"
+    implementation "androidx.room:room-rxjava2:2.3.0"
+    kapt "androidx.room:room-compiler:2.3.0"
+
+    //navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.1"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.1"
+
+    //Carbon
+    implementation "tk.zielony:carbon:0.16.0.1"
+
+    //sdp-ssp
+    implementation "com.intuit.sdp:sdp-android:1.0.6"
+    implementation "com.intuit.ssp:ssp-android:1.0.6"
 }

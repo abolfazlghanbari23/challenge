@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Challenge</string>
+    <string name="main_profile">Profile</string>
+    <string name="main_repositories">Repositories</string>
 </resources>
