@@ -1,26 +1,12 @@
-package com.example.challenge.base;
+package com.example.challenge.base
 
-import android.app.Application;
+import android.app.Application
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import com.example.challenge.profile.ProfileViewModel
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-
-import com.example.challenge.profile.ProfileViewModel;
-
-public class ProfileViewModelFactory implements ViewModelProvider.Factory {
-    private Application application;
-
-
-    public ProfileViewModelFactory(Application application) {
-        this.application = application;
-    }
-
-
-    @NonNull
-    @Override
-    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new ProfileViewModel(application);
+class ProfileViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return ProfileViewModel(application) as T
     }
 }
-

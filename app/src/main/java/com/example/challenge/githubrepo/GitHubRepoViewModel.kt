@@ -16,12 +16,15 @@ import io.reactivex.disposables.Disposable
 class GitHubRepoViewModel(application: Application) : BaseViewModel(application) {
     private val appRepository = AppRepository(application)
     val errorLiveData = MutableLiveData<Boolean>()
+    val progressBarLiveData = MutableLiveData<Boolean>()
 
     fun getRepos() {
+        errorLiveData.value = false
+        progressBarLiveData.value = true
         appRepository.getReposApi()
             .subscribe(object : Observer<Response<GithubApiQuery.Data>> {
                 override fun onSubscribe(d: Disposable) {
-                    Log.d("TAG", "onSubscribe: ")
+                    compositeDisposable.add(d)
                 }
 
                 override fun onNext(t: Response<GithubApiQuery.Data>) {
@@ -29,11 +32,12 @@ class GitHubRepoViewModel(application: Application) : BaseViewModel(application)
                 }
 
                 override fun onError(e: Throwable) {
-                    Log.d("TAG", "onError: ")
+                    errorLiveData.value = true
+                    progressBarLiveData.value = false
                 }
 
                 override fun onComplete() {
-                    Log.d("TAG", "onComplete: ")
+                    progressBarLiveData.value = false
                 }
 
             })

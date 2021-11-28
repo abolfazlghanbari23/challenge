@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.rx2.Rx2Apollo
 import com.example.challenge.UserQuery
 import com.example.challenge.base.BaseViewModel
 import com.example.challenge.repository.AppRepository
@@ -15,12 +16,15 @@ import io.reactivex.disposables.Disposable
 class ProfileViewModel(application: Application) : BaseViewModel(application) {
     private val appRepository = AppRepository(application)
     val errorLiveData = MutableLiveData<Boolean>()
+    val progressBarLiveData = MutableLiveData<Boolean>()
 
     fun getUser() {
+        errorLiveData.value = false
+        progressBarLiveData.value = true
         appRepository.getUserApi()
             .subscribe(object : Observer<Response<UserQuery.Data>> {
                 override fun onSubscribe(d: Disposable) {
-                    Log.d("TAG", "onSubscribe: ")
+                    compositeDisposable.add(d)
                 }
 
                 override fun onNext(t: Response<UserQuery.Data>) {
@@ -29,11 +33,12 @@ class ProfileViewModel(application: Application) : BaseViewModel(application) {
                 }
 
                 override fun onError(e: Throwable) {
-                    Log.d("TAG", "onError: ")
+                    errorLiveData.value = true
+                    progressBarLiveData.value = false
                 }
 
                 override fun onComplete() {
-                    Log.d("TAG", "onComplete: ")
+                    progressBarLiveData.value = false
                 }
 
             })

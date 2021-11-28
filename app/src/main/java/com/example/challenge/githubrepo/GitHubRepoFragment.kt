@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import com.example.challenge.R
 import com.example.challenge.adapters.GitHubRepoAdapter
 import com.example.challenge.base.GitHubRepoViewModelFactory
+import com.example.challenge.databinding.FragmentGitHubRepoBinding
 import com.example.challenge.response.GitHubRepo
 
 class GitHubRepoFragment : Fragment() {
@@ -19,12 +21,16 @@ class GitHubRepoFragment : Fragment() {
     private lateinit var repoAdapter: GitHubRepoAdapter
     private var repoList = emptyList<GitHubRepo>()
     private var index = 0
+    private var binding: FragmentGitHubRepoBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_git_hub_repo, container, false)
+        if (binding == null) {
+            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_git_hub_repo, container, false)
+        }
+        return binding?.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -47,6 +53,14 @@ class GitHubRepoFragment : Fragment() {
 
         viewModel.errorLiveData.observe(viewLifecycleOwner, {
 
+        })
+
+        viewModel.progressBarLiveData.observe(viewLifecycleOwner, {
+            if (it) {
+                binding?.flLoading?.visibility = View.VISIBLE
+            } else {
+                binding?.flLoading?.visibility = View.GONE
+            }
         })
     }
 
