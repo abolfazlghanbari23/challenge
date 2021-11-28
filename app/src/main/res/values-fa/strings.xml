@@ -4,4 +4,7 @@
     <string name="main_repositories">ریپازیتوری</string>
     <string name="itemGitHubRepo_name">Name</string>
     <string name="itemGitHubRepo_primary_language">Primary language</string>
+    <string name="profileFragment_followers">Followers</string>
+    <string name="profileFragment_followings">Followings</string>
+    <string name="ProfileFragment_Email">email</string>
 </resources>

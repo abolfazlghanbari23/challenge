@@ -3,7 +3,13 @@ query GithubApi {
         login
         repositories(last: 10) {
             nodes {
+                id
                 name
+                description
+                primaryLanguage {
+                    name
+                }
+
             }
         }
     }

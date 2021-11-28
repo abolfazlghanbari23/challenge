@@ -28,7 +28,17 @@ class ProfileViewModel(application: Application) : BaseViewModel(application) {
                 }
 
                 override fun onNext(t: Response<UserQuery.Data>) {
-                    Log.d("TAG", "onNext: ")
+                    t.data?.viewer?.let { viewer ->
+                        val user = User(
+                            id = viewer.id,
+                            avatarUrl = viewer.avatarUrl as String,
+                            name = viewer.name?: "",
+                            email = viewer.email,
+                            followers = viewer.followers.totalCount,
+                            following = viewer.following.totalCount
+                        )
+                        appRepository.insert(user)
+                    }
 
                 }
 

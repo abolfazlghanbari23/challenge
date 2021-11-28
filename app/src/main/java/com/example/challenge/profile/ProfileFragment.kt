@@ -1,17 +1,16 @@
 package com.example.challenge.profile
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.example.challenge.MainActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.challenge.R
-import com.example.challenge.base.GitHubRepoViewModelFactory
 import com.example.challenge.base.ProfileViewModelFactory
 import com.example.challenge.databinding.FragmentProfileBinding
+import com.squareup.picasso.Picasso
 
 class ProfileFragment : Fragment() {
 
@@ -39,7 +38,17 @@ class ProfileFragment : Fragment() {
         viewModel.getUser()
 
         viewModel.getUserCache().observe(viewLifecycleOwner, {
-
+            if (it.isEmpty())
+                return@observe
+            Picasso.get()
+                .load(it[0].avatarUrl)
+                .placeholder(R.drawable.ic_profile)
+                .error(R.drawable.ic_profile)
+                .into(binding!!.ivAvatar)
+            binding!!.tvEmail.text = it[0].email
+            binding!!.tvName.text = it[0].name
+            binding!!.followerCount.text = it[0].followers.toString()
+            binding!!.followingCount.text = it[0].following.toString()
         })
 
         viewModel.errorLiveData.observe(viewLifecycleOwner, {

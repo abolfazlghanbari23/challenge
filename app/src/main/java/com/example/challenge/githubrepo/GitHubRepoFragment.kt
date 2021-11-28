@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.challenge.R
 import com.example.challenge.adapters.GitHubRepoAdapter
 import com.example.challenge.base.GitHubRepoViewModelFactory
@@ -39,11 +40,9 @@ class GitHubRepoFragment : Fragment() {
             this,
             GitHubRepoViewModelFactory(requireActivity().application)
         ).get(GitHubRepoViewModel::class.java)
-        repoAdapter = GitHubRepoAdapter(object : GitHubRepoAdapter.CallBack {
-            override fun onItemClicked(gitHubRepo: GitHubRepo) {
-                Toast.makeText(context, "id: ${gitHubRepo.id}", Toast.LENGTH_SHORT).show()
-            }
-        })
+
+        initRecyclerView()
+
 
         viewModel.getRepos()
 
@@ -62,6 +61,18 @@ class GitHubRepoFragment : Fragment() {
                 binding?.flLoading?.visibility = View.GONE
             }
         })
+    }
+
+    private fun initRecyclerView() {
+        repoAdapter = GitHubRepoAdapter(object : GitHubRepoAdapter.CallBack {
+            override fun onItemClicked(gitHubRepo: GitHubRepo) {
+                Toast.makeText(context, "id: ${gitHubRepo.id}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        binding?.rvRepos?.layoutManager = LinearLayoutManager(context)
+        binding?.rvRepos?.adapter = repoAdapter
+
     }
 
 }

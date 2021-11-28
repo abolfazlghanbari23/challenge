@@ -50,7 +50,13 @@ class AppRepository(application: Application) {
         return appDao.getAllUsers()
     }
 
-//    fun insert()
+    fun insert(user: User) {
+        appDao.insert(user)
+    }
+
+    fun insert(repos: List<GitHubRepo>) {
+        appDao.insert(repos)
+    }
 
 
 }

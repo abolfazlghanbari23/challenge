@@ -8,10 +8,10 @@ import com.example.challenge.response.User
 @Dao
 interface AppDao {
 
-    @Insert
-    fun insert(repo: GitHubRepo)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(repos: List<GitHubRepo>)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(user: User)
 
     @Update

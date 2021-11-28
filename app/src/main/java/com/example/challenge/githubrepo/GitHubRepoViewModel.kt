@@ -1,12 +1,10 @@
 package com.example.challenge.githubrepo
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.apollographql.apollo.api.Response
 import com.example.challenge.GithubApiQuery
-import com.example.challenge.UserQuery
 import com.example.challenge.base.BaseViewModel
 import com.example.challenge.repository.AppRepository
 import com.example.challenge.response.GitHubRepo
@@ -28,7 +26,21 @@ class GitHubRepoViewModel(application: Application) : BaseViewModel(application)
                 }
 
                 override fun onNext(t: Response<GithubApiQuery.Data>) {
-                    Log.d("TAG", "onNext: ")
+                    val repos = mutableListOf<GitHubRepo>()
+                    for (repo in t.data?.viewer?.repositories?.nodes!!) {
+
+                        repo?.let {
+                            val gitHubRepo = GitHubRepo(
+                                it.id,
+                                it.name,
+                                it.description?:"",
+                                it.primaryLanguage?.name?:""
+                            )
+                            repos.add(gitHubRepo)
+                        }
+
+                    }
+                    appRepository.insert(repos)
                 }
 
                 override fun onError(e: Throwable) {

@@ -27,13 +27,6 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         setupNavigation()
-
-
-        val apolloClient = Apollo.instance
-        lifecycleScope.launchWhenResumed {
-            val response = apolloClient!!.query(GithubApiQuery()).await()
-            Log.d("LaunchList", "Success ${response.data}")
-        }
     }
 
     private fun setupNavigation() {
