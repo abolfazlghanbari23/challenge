@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.challenge.MainActivity
 import com.example.challenge.R
+import com.example.challenge.base.GitHubRepoViewModelFactory
+import com.example.challenge.base.ProfileViewModelFactory
 
 class ProfileFragment : Fragment() {
 
@@ -21,7 +24,10 @@ class ProfileFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            ProfileViewModelFactory(requireActivity().application)
+        ).get(ProfileViewModel::class.java)
 
         viewModel.getUser()
 

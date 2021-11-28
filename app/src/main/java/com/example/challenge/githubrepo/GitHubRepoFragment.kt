@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.challenge.R
 import com.example.challenge.adapters.GitHubRepoAdapter
+import com.example.challenge.base.GitHubRepoViewModelFactory
 import com.example.challenge.response.GitHubRepo
 
 class GitHubRepoFragment : Fragment() {
@@ -28,7 +29,10 @@ class GitHubRepoFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(GitHubRepoViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            GitHubRepoViewModelFactory(requireActivity().application)
+        ).get(GitHubRepoViewModel::class.java)
         repoAdapter = GitHubRepoAdapter(object : GitHubRepoAdapter.CallBack {
             override fun onItemClicked(gitHubRepo: GitHubRepo) {
                 Toast.makeText(context, "id: ${gitHubRepo.id}", Toast.LENGTH_SHORT).show()

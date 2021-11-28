@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.apollographql.apollo.coroutines.await
+import com.example.challenge.base.GitHubRepoViewModelFactory
 import com.example.challenge.databinding.ActivityMainBinding
 import com.example.challenge.repository.Apollo
 

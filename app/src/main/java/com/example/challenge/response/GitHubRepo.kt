@@ -8,5 +8,5 @@ class GitHubRepo(
     @PrimaryKey val id: Long,
     val name: String,
     val description: String,
-    val primaryLanguage: PrimaryLang
+    val primaryLanguage: String
 )
