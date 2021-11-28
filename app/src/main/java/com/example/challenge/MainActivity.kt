@@ -10,10 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import com.example.challenge.databinding.ActivityMainBinding
-import okhttp3.OkHttpClient
+import com.example.challenge.repository.Apollo
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,17 +28,9 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
 
 
-        val apolloClient = ApolloClient.builder()
-            .okHttpClient(
-                OkHttpClient.Builder()
-                    .addInterceptor(AuthorizationInterceptor())
-                    .build()
-            )
-            .serverUrl("https://api.github.com/graphql")
-            .build()
-
+        val apolloClient = Apollo.instance
         lifecycleScope.launchWhenResumed {
-            val response = apolloClient.query(GithubApiQuery()).await()
+            val response = apolloClient!!.query(GithubApiQuery()).await()
             Log.d("LaunchList", "Success ${response.data}")
         }
     }

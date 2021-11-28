@@ -1,0 +1,15 @@
+query User {
+    viewer {
+        id
+        avatarUrl
+        name
+        email
+        followers {
+            totalCount
+        }
+        following {
+            totalCount
+        }
+
+    }
+}

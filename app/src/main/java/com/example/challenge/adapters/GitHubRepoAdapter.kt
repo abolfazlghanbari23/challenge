@@ -20,7 +20,7 @@ class GitHubRepoAdapter(private val callBack: CallBack? = null) :
         }
 
         override fun areContentsTheSame(oldItem: GitHubRepo, newItem: GitHubRepo): Boolean {
-            return newItem == oldItem
+            return newItem.equals(oldItem)
         }
 
     }
@@ -66,7 +66,7 @@ class GitHubRepoAdapter(private val callBack: CallBack? = null) :
     }
 
     interface CallBack {
-        fun onItemSelected(position: Int, item: GitHubRepo)
+        fun onItemClicked(gitHubRepo: GitHubRepo)
     }
 }
 

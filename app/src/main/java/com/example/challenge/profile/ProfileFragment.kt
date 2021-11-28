@@ -10,10 +10,6 @@ import com.example.challenge.R
 
 class ProfileFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ProfileFragment()
-    }
-
     private lateinit var viewModel: ProfileViewModel
 
     override fun onCreateView(
@@ -27,6 +23,15 @@ class ProfileFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 
+        viewModel.getUser()
+
+        viewModel.getUserCache().observe(viewLifecycleOwner, {
+
+        })
+
+        viewModel.errorLiveData.observe(viewLifecycleOwner, {
+
+        })
     }
 
 }

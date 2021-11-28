@@ -2,4 +2,6 @@
     <string name="app_name">Challenge</string>
     <string name="main_profile">Profile</string>
     <string name="main_repositories">Repositories</string>
+    <string name="itemGitHubRepo_name">Name</string>
+    <string name="itemGitHubRepo_primary_language">Primary language</string>
 </resources>

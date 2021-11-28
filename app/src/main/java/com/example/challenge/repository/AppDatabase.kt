@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.challenge.response.GitHubRepo
+import com.example.challenge.response.User
 
-@Database(entities = [GitHubRepo::class], version = 1)
+@Database(entities = [GitHubRepo::class, User::class], version = 1)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun appDao(): AppDao

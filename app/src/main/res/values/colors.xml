@@ -10,4 +10,5 @@
     <color name="colorSecondary">#595854</color>
     <color name="colorSecondaryLight">#A6595854</color>
     <color name="colorSecondaryLighter">#4D595854</color>
+    <color name="text_color">#515C6F</color>
 </resources>

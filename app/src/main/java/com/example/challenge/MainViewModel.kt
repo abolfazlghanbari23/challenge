@@ -1,6 +1,6 @@
 package com.example.challenge
 
-import androidx.lifecycle.ViewModel
+import com.example.challenge.base.BaseViewModel
 
-class MainViewModel: ViewModel() {
+class MainViewModel: BaseViewModel() {
 }

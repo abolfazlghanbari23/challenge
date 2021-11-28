@@ -13,4 +13,9 @@
         <item name="android:textSize">@dimen/_11ssp</item>
     </style>
 
+    <style name="RippleClick">
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
 </resources>
