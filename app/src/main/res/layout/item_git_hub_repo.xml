@@ -19,13 +19,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_8sdp"
-        android:layout_marginVertical="@dimen/_2sdp"
+        android:layout_marginVertical="@dimen/_4sdp"
         android:background="@color/colorWhite"
+        android:elevation="1dp"
         android:onClick="@{view -> listener.onItemClicked(repository)}"
-        android:paddingHorizontal="@dimen/_6sdp"
-        android:paddingVertical="@dimen/_4sdp"
-        app:carbon_cornerRadius="@dimen/_10sdp"
-        app:carbon_elevation="@dimen/_1sdp">
+        android:paddingHorizontal="@dimen/_12sdp"
+        android:paddingVertical="@dimen/_8sdp"
+        app:carbon_cornerRadius="@dimen/_10sdp">
 
         <TextView
             android:id="@+id/tv_name_title"

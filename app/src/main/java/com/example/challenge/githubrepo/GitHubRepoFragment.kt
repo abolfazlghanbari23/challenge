@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.challenge.R
 import com.example.challenge.adapters.GitHubRepoAdapter
 import com.example.challenge.base.GitHubRepoViewModelFactory
@@ -20,18 +21,19 @@ class GitHubRepoFragment : Fragment() {
 
     private lateinit var viewModel: GitHubRepoViewModel
     private lateinit var repoAdapter: GitHubRepoAdapter
-    private var repoList = emptyList<GitHubRepo>()
     private var index = 0
-    private var binding: FragmentGitHubRepoBinding? = null
+    private var isListFinished = false
+    private var endOfListReached = false
+    private var reposList = emptyList<GitHubRepo>()
+    private lateinit var binding: FragmentGitHubRepoBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        if (binding == null) {
-            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_git_hub_repo, container, false)
-        }
-        return binding?.root
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_git_hub_repo, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -56,9 +58,9 @@ class GitHubRepoFragment : Fragment() {
 
         viewModel.progressBarLiveData.observe(viewLifecycleOwner, {
             if (it) {
-                binding?.flLoading?.visibility = View.VISIBLE
+                binding.flLoading.visibility = View.VISIBLE
             } else {
-                binding?.flLoading?.visibility = View.GONE
+                binding.flLoading.visibility = View.GONE
             }
         })
     }
@@ -70,9 +72,35 @@ class GitHubRepoFragment : Fragment() {
             }
         })
 
-        binding?.rvRepos?.layoutManager = LinearLayoutManager(context)
-        binding?.rvRepos?.adapter = repoAdapter
+        binding.rvRepos.layoutManager = LinearLayoutManager(context)
+        binding.rvRepos.adapter = repoAdapter
+
+        binding.rvRepos.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (isLoadingAllowed() && isBottomOfListReached()) {
+                    loadMoreFromList()
+                }
+
+            }
+        })
 
     }
+
+    private fun isLoadingAllowed(): Boolean {
+        return (!isListFinished
+                && viewModel.progressBarLiveData
+            .value != null && !viewModel.progressBarLiveData.value!!)
+    }
+
+    private fun isBottomOfListReached(): Boolean {
+        val linearLayoutManager = binding.rvRepos.layoutManager as LinearLayoutManager
+        return (linearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) == viewModel.getReposCache().value?.size
+    }
+
+    private fun loadMoreFromList() {
+        viewModel.getRepos()
+    }
+
 
 }

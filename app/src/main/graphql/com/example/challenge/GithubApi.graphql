@@ -1,7 +1,7 @@
 query GithubApi {
     viewer {
         login
-        repositories(last: 10) {
+        repositories(last: 100) {
             nodes {
                 id
                 name

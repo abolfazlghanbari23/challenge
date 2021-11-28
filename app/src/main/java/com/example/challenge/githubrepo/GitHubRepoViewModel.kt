@@ -27,20 +27,23 @@ class GitHubRepoViewModel(application: Application) : BaseViewModel(application)
 
                 override fun onNext(t: Response<GithubApiQuery.Data>) {
                     val repos = mutableListOf<GitHubRepo>()
-                    for (repo in t.data?.viewer?.repositories?.nodes!!) {
+                    t.data?.viewer?.repositories?.nodes?.let {
+                        for (repo in it) {
 
-                        repo?.let {
-                            val gitHubRepo = GitHubRepo(
-                                it.id,
-                                it.name,
-                                it.description?:"",
-                                it.primaryLanguage?.name?:""
-                            )
-                            repos.add(gitHubRepo)
+                            repo?.let { node ->
+                                val gitHubRepo = GitHubRepo(
+                                    node.id,
+                                    node.name,
+                                    node.description?:"",
+                                    node.primaryLanguage?.name?:""
+                                )
+                                repos.add(gitHubRepo)
+                            }
+
                         }
-
+                        appRepository.insert(repos)
                     }
-                    appRepository.insert(repos)
+
                 }
 
                 override fun onError(e: Throwable) {
